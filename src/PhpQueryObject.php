@@ -984,6 +984,16 @@ class PhpQueryObject implements \Iterator, \Countable, \ArrayAccess {
         }
         $this->elements = $stack;
         break;
+	  case 'equals':
+		$text = trim($args, "\"'");
+		$stack = array();
+		foreach($this->elements as $node) {
+			if ($node->textContent !== $text)
+				continue;
+			$stack[] = $node;
+		}
+		$this->elements = $stack;
+		break;
       case 'not':
         $selector = self::unQuote($args);
         $this->elements = $this->not($selector)->stack();
